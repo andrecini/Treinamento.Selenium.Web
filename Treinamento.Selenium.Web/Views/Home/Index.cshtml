@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Home";
+    var cont = 1;
 }
 
 <div class="d-flex align-items-center justify-content-between">
@@ -31,18 +32,20 @@
                     <div class="d-flex justify-content-start row gap-1 m-0 w-100">
                         <form class="col-auto p-0" asp-action="Visualizacao" asp-controller="Home">
                             <input name="Id" type="hidden" value="@pessoa.Id" />
-                            <button id="btnEditar-@pessoa.Id" class="btn btn-primary btn-sm me-2" title="Detalhes">
+                            <button id="btnEditar-@cont" class="btn btn-primary btn-sm me-2" title="Detalhes">
                                 <i class="bx bx-search-alt"></i>
                             </button>
                         </form>
                         <div class="col-auto p-0">
-                            <button id="btnDeletar-@pessoa.Id" class="btn btn-danger btn-sm" title="Deletar" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" onclick="defineIdDeletar(@pessoa.Id)">
+                            <button id="btnDeletar-@cont" class="btn btn-danger btn-sm" title="Deletar" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" onclick="defineIdDeletar(@pessoa.Id)">
                                 <i class="bx bx-trash"></i>
                             </button>
                         </div>
                     </div>
                 </td>
             </tr>
+
+            cont++;
         }
     </tbody>
 </table>
