@@ -1,0 +1,52 @@
+﻿@model List<Pessoa>
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="d-flex align-items-center justify-content-between">
+    <h2>Contatos</h2>
+    <a id="btnCadastro" asp-action="Cadastro" asp-controller="Home" class="btn btn-success">Cadastrar</a>
+</div>
+
+<table class="table table-striped mt-4">
+    <thead class="table-dark">
+        <tr>
+            <th>Id</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Telefone</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pessoa in Model)
+        {
+            <tr>
+                <td scope="col">@pessoa.Id</td>
+                <td scope="col">@pessoa.Nome @pessoa.Sobrenome</td>
+                <td scope="col">@pessoa.Email</td>
+                <td scope="col">@pessoa.Telefone</td>
+                <td scope="col">
+                    <div class="d-flex justify-content-start row gap-1 m-0 w-100">
+                        <form class="col-auto p-0" asp-action="Visualizacao" asp-controller="Home">
+                            <input name="Id" type="hidden" value="@pessoa.Id" />
+                            <button id="btnEditar-@pessoa.Id" class="btn btn-primary btn-sm me-2" title="Detalhes">
+                                <i class="bx bx-search-alt"></i>
+                            </button>
+                        </form>
+                        <div class="col-auto p-0">
+                            <button id="btnDeletar-@pessoa.Id" class="btn btn-danger btn-sm" title="Deletar" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" onclick="defineIdDeletar(@pessoa.Id)">
+                                <i class="bx bx-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@await Html.PartialAsync("Partials/_ModalConfirmacao.cshtml")
+
+<script src="~/js/index.js"></script>

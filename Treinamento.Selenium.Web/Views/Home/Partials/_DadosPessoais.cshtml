@@ -1,0 +1,55 @@
+﻿@using Treinamento.Selenium.Web.Helpers;
+@model Pessoa
+
+@{
+    var validacoes = ViewBag.Validacoes;
+
+    var helper = new FeedbackBootstrapHelper(validacoes);
+}
+
+<div class="container mt-5 p-0">
+    <input asp-for="Id" type="hidden" name="Id" />
+
+    <div class="mb-3">
+        <label for="nome" class="form-label">Nome</label>
+        <input asp-for="Nome" type="text" class="form-control" id="nome" name="Nome" autocomplete="off">
+        <div class="@(helper.RetornaClasse("Nome"))">@(helper.RetornaMensagem("Nome"))</div>
+    </div>
+    <div class="mb-3">
+        <label for="sobrenome" class="form-label">Sobrenome</label>
+        <input asp-for="Sobrenome" type="text" class="form-control" id="sobrenome" name="Sobrenome" autocomplete="off">
+        <div class="@(helper.RetornaClasse("Sobrenome"))">@(helper.RetornaMensagem("Sobrenome"))</div>
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input asp-for="Email" type="email" class="form-control" id="email" name="Email" autocomplete="off">
+        <div class="@(helper.RetornaClasse("Email"))">@(helper.RetornaMensagem("Email"))</div>
+    </div>
+    <div class="mb-3">
+        <label for="dataNascimento" class="form-label">Data de Nascimento</label>
+        <input asp-for="DataNascimento" type="date" class="form-control" id="dataNascimento" name="DataNascimento" autocomplete="off">
+        <div class="@(helper.RetornaClasse("DataNascimento"))">@(helper.RetornaMensagem("DataNascimento"))</div>
+    </div>
+    <div class="mb-3">
+        <input id="estado-hidden" type="hidden" value="@(Model == null ? "Nenhum" : Model.Estado)" />
+        <label for="estado" class="form-label">Estado</label>
+        <select asp-for="Estado" asp-for="Estado" class="form-select" id="estado" name="Estado" autocomplete="off">
+            <option value="Nenhum" disabled selected>Selecione um estado</option>
+        </select>
+        <div class="@(helper.RetornaClasse("Estado"))">@(helper.RetornaMensagem("Estado"))</div>
+    </div>
+    <div class="mb-3">
+        <label for="telefone" class="form-label">Telefone</label>
+        <input asp-for="Telefone" type="tel" class="form-control" id="telefone" name="Telefone" pattern="\([0-9]{2}\) [0-9]{5}-[0-9]{4}" autocomplete="off">
+        <div class="@(helper.RetornaClasse("Telefone"))">@(helper.RetornaMensagem("Telefone"))</div>
+    </div>
+    <div class="mb-3">
+        <label for="senha" class="form-label">Senha</label>
+        <input asp-for="Senha" type="password" class="form-control" id="senha" name="Senha" autocomplete="off">
+        <div class="@(helper.RetornaClasse("Senha"))">@(helper.RetornaMensagem("Senha"))</div>
+    </div>
+    <button id="btnSalvar" type="submit" class="btn btn-primary">Salvar</button>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/dadosPessoas.js"></script>
