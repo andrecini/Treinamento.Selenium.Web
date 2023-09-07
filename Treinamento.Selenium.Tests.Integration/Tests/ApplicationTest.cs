@@ -24,63 +24,71 @@ namespace TreinamentoSellenium.Test.Integration.Tests
         [Fact]
         public void AbrirTelaDeListagem()
         {
-            new ListagemPage(_webDriver).AbrirTelaListagem();
-            Task.Delay(3000).Wait();
+            var url = new ListagemPage(_webDriver).AbrirTelaListagem();
+            Task.Delay(2000).Wait();
 
-            ScreenshotHelper.GerarEvidencia(_webDriver, SettingsHelper.Directory, "RealizarLoginAmericas");
+            ScreenshotHelper.GerarEvidencia(_webDriver, SettingsHelper.Directory, "TelaInicial");
 
-            Assert.Equal("Home", _webDriver.Title);
+            Assert.Equal(url, SettingsHelper.Url);
         }
 
         [Fact]
         public void CadastrarPessoa()
         {
+            // Arrange
             var cadastroPage = new CadastroPage(_webDriver);
-
             cadastroPage.AbrirTelaListagem();
-            Task.Delay(3000).Wait();
-            cadastroPage.AbrirTelaCadastro();
-            Task.Delay(3000).Wait();
+            Task.Delay(5000).Wait();
+            var quantidadeInicial = cadastroPage.PegarQuantidadeDeRegistros();
+
+            // Act
+            var urlCadastro = cadastroPage.AbrirTelaCadastro();
             ScreenshotHelper.GerarEvidencia(_webDriver, SettingsHelper.Directory, "TelaCadastro");
-            Task.Delay(3000).Wait();
-            cadastroPage.PreencherFormulario();
+            cadastroPage.CadastrarCliente(urlCadastro);
+            cadastroPage.AbrirTelaListagem();
             ScreenshotHelper.GerarEvidencia(_webDriver, SettingsHelper.Directory, "ListagemComCadastrado");
 
-
-            Assert.Equal("Cadastro", _webDriver.Title);
+            // Assert
+            var quantidadeFinal = cadastroPage.PegarQuantidadeDeRegistros();
+            Assert.Equal(quantidadeFinal, quantidadeInicial + 1);
         }
 
         [Fact]
         public void EditarPessoa()
         {
+            // Arrange
             var visualizacaoPage = new VisualizacaoPage(_webDriver);
-
             visualizacaoPage.AbrirTelaListagem();
-            Task.Delay(3000).Wait();
-            visualizacaoPage.AbrirTelaVisualizacao();
-            Task.Delay(3000).Wait();
+            var nomeInicial = visualizacaoPage.PegarNomeDoRegistro();
+            var id = visualizacaoPage.PegarIdDoRegistro();
+
+            // Act
+            var urlVisualizacao = visualizacaoPage.AbrirTelaVisualizacao();
             ScreenshotHelper.GerarEvidencia(_webDriver, SettingsHelper.Directory, "TelaCadastro");
-            Task.Delay(3000).Wait();
-            visualizacaoPage.PreencherFormulario();
-            ScreenshotHelper.GerarEvidencia(_webDriver, SettingsHelper.Directory, "ListagemComCadastrado");
+            visualizacaoPage.EditarCliente(urlVisualizacao, id);
+            visualizacaoPage.AbrirTelaListagem();
+            ScreenshotHelper.GerarEvidencia(_webDriver, SettingsHelper.Directory, "ListagemComEditado");
 
-
-            Assert.Equal("Visualizacao", _webDriver.Title);
+            //Assert
+            var nomeFinal = visualizacaoPage.PegarNomeDoRegistro();
+            Assert.Equal(nomeFinal, $"{nomeInicial} - Editado");
         }
 
         [Fact]
         public void DeletarPessoa()
         {
+            // Arrange
             var listagemPage = new ListagemPage(_webDriver);
-
             listagemPage.AbrirTelaListagem();
-            Task.Delay(3000).Wait();
-            listagemPage.DeletarPessoa();
-            Task.Delay(3000).Wait();
-            ScreenshotHelper.GerarEvidencia(_webDriver, SettingsHelper.Directory, "ListagemDeletado");
-            Task.Delay(3000).Wait();
+            var quantidadeInicial = listagemPage.PegarQuantidadeDeRegistros();
 
-            Assert.Equal("Home", _webDriver.Title);
+            // Act
+            listagemPage.DeletarPessoa();
+            ScreenshotHelper.GerarEvidencia(_webDriver, SettingsHelper.Directory, "ListagemDeletado");
+
+            // Assert
+            var quantidadeFinal = listagemPage.PegarQuantidadeDeRegistros();
+            Assert.Equal(quantidadeFinal, quantidadeInicial - 1);
         }
 
         public void Dispose()

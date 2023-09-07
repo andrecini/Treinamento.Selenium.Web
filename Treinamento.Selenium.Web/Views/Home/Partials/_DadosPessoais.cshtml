@@ -8,7 +8,7 @@
 }
 
 <div class="container mt-5 p-0">
-    <input asp-for="Id" type="hidden" name="Id" />
+    <input id="id" asp-for="Id" type="hidden" name="Id" />
 
     <div class="mb-3">
         <label for="nome" class="form-label">Nome</label>
@@ -40,7 +40,7 @@
     </div>
     <div class="mb-3">
         <label for="telefone" class="form-label">Telefone</label>
-        <input asp-for="Telefone" type="tel" class="form-control" id="telefone" name="Telefone" pattern="\([0-9]{2}\) [0-9]{5}-[0-9]{4}" autocomplete="off">
+        <input asp-for="Telefone" type="tel" class="form-control" id="telefone" name="Telefone" autocomplete="off">
         <div class="@(helper.RetornaClasse("Telefone"))">@(helper.RetornaMensagem("Telefone"))</div>
     </div>
     <div class="mb-3">

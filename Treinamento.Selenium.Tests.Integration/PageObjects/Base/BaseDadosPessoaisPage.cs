@@ -26,31 +26,52 @@ namespace TreinamentoSellenium.Test.Integration.PageObjects.Base
             _webDriver = new EdgeDriver();
         }
 
-        internal void IrParaPagina() => _webDriver.Url = SettingsHelper.Url;
-        internal void ClicarEmSalvar() => btnSalvar.ClicarNoElemento();
-        internal void PreencherFormulario()
-        {
-            var helper = DadosPessoaisHelper.GetSingleton();
+        internal string RetornarPagina() => SettingsHelper.Url;
 
+        internal void ClicarEmSalvar()
+        {
+            btnSalvar.Click();
+        }
+
+        internal void PreencherFormulario(string url, DadosPessoaisHelper helper)
+        {
+            _webDriver.Url = url;
+
+            PreencherIdComDelay(helper.Id);
             PreencherCampoComDelay(inputNome, By.Id("nome"), helper.Nome);
             PreencherCampoComDelay(inputSobrenome, By.Id("sobrenome"), helper.Sobrenome);
             PreencherCampoComDelay(inputEmail, By.Id("email"), helper.Email);
-            PreencherCampoComDelay(inputDataNascimento, By.Id("dataNascimento"), helper.DataNascimento.ToString("yyyy-MM-dd"));
-            SelecionarEstado(helper.Estado);
+            PreencherCampoComDelay(inputDataNascimento, By.Id("dataNascimento"), helper.DataNascimento.ToString("MM-dd-yyyy"));
+            SelecionarEstadoComDelay(helper.Estado);
             PreencherCampoComDelay(inputTelefone, By.Id("telefone"), helper.Telefone);
             PreencherCampoComDelay(inputSenha, By.Id("senha"), helper.Senha);
+            ScreenshotHelper.GerarEvidencia(_webDriver, SettingsHelper.Directory, "FomularioCadastroPreenchido");
+            Task.Delay(2000).Wait();
+            btnSalvar.Submit();
         }
+
+        private void PreencherIdComDelay(int id)
+        {
+            Task.Delay(2000).Wait();
+            string script = $"document.getElementById('id').value = '{id}';";
+            ((IJavaScriptExecutor)_webDriver).ExecuteScript(script);
+            Task.Delay(2000).Wait();
+        }
+
         private void PreencherCampoComDelay(IWebElement element, By by, string valor)
         {
             WebElementHelper.PosicionarScroll(_webDriver, by);
-            Task.Delay(1000);
+            Task.Delay(2000).Wait();
             element.Preencher(valor);
-            Task.Delay(500);
+            Task.Delay(2000).Wait();
         }
-        private void SelecionarEstado(string estado)
+
+        private void SelecionarEstadoComDelay(string estado)
         {
+            Task.Delay(2000).Wait();
             var selectElement = new SelectElement(selectEstado);
             selectElement.SelecionarPorTexto(selectEstado, estado);
+            Task.Delay(2000).Wait();
         }
     }
 }

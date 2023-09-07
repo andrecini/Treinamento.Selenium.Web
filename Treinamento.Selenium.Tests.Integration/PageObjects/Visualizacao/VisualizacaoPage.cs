@@ -1,4 +1,7 @@
-﻿using OpenQA.Selenium;
+﻿using AngleSharp.Dom;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
+using OpenQA.Selenium;
+using System.Drawing;
 using Treinamento.Selenium.Tests.Integration.Helpers;
 using TreinamentoSellenium.Test.Integration.PageObjects.Base;
 
@@ -8,6 +11,8 @@ namespace TreinamentoSellenium.Test.Integration.PageObjects.Visualizacao
     {
         private readonly IWebDriver _webDriver;
         private IWebElement btnEditar => _webDriver.FindElement(By.Id("btnEditar-1"));
+        private IWebElement inputNameForTest => _webDriver.FindElement(By.Id("nameForTest-1"));
+        private IWebElement inputIdForTest => _webDriver.FindElement(By.Id("idForTest-1"));
 
         public VisualizacaoPage(IWebDriver webDriver)
         {
@@ -16,32 +21,38 @@ namespace TreinamentoSellenium.Test.Integration.PageObjects.Visualizacao
 
         public string AbrirTelaListagem()
         {
-            IrParaPagina();
-            Task.Delay(2000).Wait();
+            _webDriver.Url = RetornarPagina();
+            Task.Delay(3000).Wait();
 
             return _webDriver.Url;
+        }
+       
+        public string PegarNomeDoRegistro()
+        {
+            return inputNameForTest.GetAttribute("value");
+        }
+
+        public int PegarIdDoRegistro()
+        {
+            return Convert.ToInt16(inputIdForTest.GetAttribute("value"));
         }
 
         public string AbrirTelaVisualizacao()
         {
-            WebElementHelper.PosicionarScroll(_webDriver, By.Id("btnDeletar-1"));
-            Task.Delay(2000);
             ClicarNoBotaoEditar();
-            Task.Delay(2000);
+            Task.Delay(3000);
 
             return _webDriver.Url;
         }
 
-        public string EditarCliente()
+        public void EditarCliente(string url, int id)
         {
-            PreencherFormulario();
-            WebElementHelper.PosicionarScroll(_webDriver, By.Id("btnSalvar"));
-            Task.Delay(1000);
-            ScreenshotHelper.GerarEvidencia(_webDriver, SettingsHelper.Directory, "EdicaoPreenchido");
-            ClicarEmSalvar();
-            Task.Delay(2000);
+            var helper = new DadosPessoaisHelper();
+            helper.Sobrenome = $"{helper.Sobrenome} - Editado";
+            helper.Id = id;
 
-            return _webDriver.Url;
+            PreencherFormulario(url, helper);
+            Task.Delay(3000).Wait();
         }
 
         internal void ClicarNoBotaoEditar() => btnEditar.ClicarNoElemento();

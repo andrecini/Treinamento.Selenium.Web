@@ -8,19 +8,7 @@ namespace Treinamento.Selenium.Tests.Integration.Helpers
 {
     public class DadosPessoaisHelper
     {
-        private static DadosPessoaisHelper _instance;
-
-        public static DadosPessoaisHelper GetSingleton()
-        {
-            if (_instance == null)
-            {
-                _instance = new DadosPessoaisHelper();
-            }
-
-            return _instance;
-        }
-
-        private DadosPessoaisHelper()
+        public DadosPessoaisHelper()
         {
             SetParameters();
         }

@@ -23,7 +23,7 @@
     <tbody>
         @foreach (var pessoa in Model)
         {
-            <tr>
+            <tr class="pessoa-registrada">
                 <td scope="col">@pessoa.Id</td>
                 <td scope="col">@pessoa.Nome @pessoa.Sobrenome</td>
                 <td scope="col">@pessoa.Email</td>
@@ -32,6 +32,8 @@
                     <div class="d-flex justify-content-start row gap-1 m-0 w-100">
                         <form class="col-auto p-0" asp-action="Visualizacao" asp-controller="Home">
                             <input name="Id" type="hidden" value="@pessoa.Id" />
+                            <input id="nameForTest-@cont" type="hidden" value="@($"{pessoa.Nome} {pessoa.Sobrenome}")">
+                            <input id="idForTest-@cont" type="hidden" value="@pessoa.Id">
                             <button id="btnEditar-@cont" class="btn btn-primary btn-sm me-2" title="Detalhes">
                                 <i class="bx bx-search-alt"></i>
                             </button>

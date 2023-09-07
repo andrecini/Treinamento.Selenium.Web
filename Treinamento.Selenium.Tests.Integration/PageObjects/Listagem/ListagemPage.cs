@@ -18,19 +18,23 @@ namespace Treinamento.Selenium.Tests.Integration.PageObjects.Listagem
         public string AbrirTelaListagem()
         {
             IrParaPagina();
-            Task.Delay(2000).Wait();
+            Task.Delay(3000).Wait();
 
             return _webDriver.Url;
+        }
+        public int PegarQuantidadeDeRegistros()
+        {
+            return _webDriver.FindElements(By.ClassName("pessoa-registrada")).Count();
         }
 
         public string DeletarPessoa()
         {
             WebElementHelper.PosicionarScroll(_webDriver, By.Id("btnDeletar-1"));
-            Task.Delay(2000);
+            Task.Delay(3000);
             ClicarNoBotaoDeletar();
-            Task.Delay(2000);
+            Task.Delay(3000);
             ClicarEmConfirmarDelecao();
-            Task.Delay(2000);
+            Task.Delay(3000);
 
             return _webDriver.Url;
         }

@@ -4,7 +4,7 @@
     {
         public static string Url
         {
-            get => "https://localhost:7070/";
+            get => "https://localhost:7242/";
         }
 
         public static string Directory
