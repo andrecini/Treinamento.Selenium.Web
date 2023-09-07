@@ -24,11 +24,15 @@ namespace TreinamentoSellenium.Test.Integration.Tests
         [Fact]
         public void AbrirTelaDeListagem()
         {
+            // Arrange
+            SettingsHelper.SetFolder("Listagem");
             var url = new ListagemPage(_webDriver).AbrirTelaListagem();
             Task.Delay(2000).Wait();
 
+            // Act
             ScreenshotHelper.GerarEvidencia(_webDriver, SettingsHelper.Directory, "TelaInicial");
 
+            // Assert
             Assert.Equal(url, SettingsHelper.Url);
         }
 
@@ -36,12 +40,14 @@ namespace TreinamentoSellenium.Test.Integration.Tests
         public void CadastrarPessoa()
         {
             // Arrange
+            SettingsHelper.SetFolder("Cadastrar");
             var cadastroPage = new CadastroPage(_webDriver);
             cadastroPage.AbrirTelaListagem();
             Task.Delay(5000).Wait();
             var quantidadeInicial = cadastroPage.PegarQuantidadeDeRegistros();
 
             // Act
+            ScreenshotHelper.GerarEvidencia(_webDriver, SettingsHelper.Directory, "ListagemAntes");
             var urlCadastro = cadastroPage.AbrirTelaCadastro();
             ScreenshotHelper.GerarEvidencia(_webDriver, SettingsHelper.Directory, "TelaCadastro");
             cadastroPage.CadastrarCliente(urlCadastro);
@@ -57,12 +63,14 @@ namespace TreinamentoSellenium.Test.Integration.Tests
         public void EditarPessoa()
         {
             // Arrange
+            SettingsHelper.SetFolder("Editar");
             var visualizacaoPage = new VisualizacaoPage(_webDriver);
             visualizacaoPage.AbrirTelaListagem();
             var nomeInicial = visualizacaoPage.PegarNomeDoRegistro();
             var id = visualizacaoPage.PegarIdDoRegistro();
 
             // Act
+            ScreenshotHelper.GerarEvidencia(_webDriver, SettingsHelper.Directory, "ListagemAntes");
             var urlVisualizacao = visualizacaoPage.AbrirTelaVisualizacao();
             ScreenshotHelper.GerarEvidencia(_webDriver, SettingsHelper.Directory, "TelaCadastro");
             visualizacaoPage.EditarCliente(urlVisualizacao, id);
@@ -78,13 +86,15 @@ namespace TreinamentoSellenium.Test.Integration.Tests
         public void DeletarPessoa()
         {
             // Arrange
+            SettingsHelper.SetFolder("Deletar");
             var listagemPage = new ListagemPage(_webDriver);
             listagemPage.AbrirTelaListagem();
             var quantidadeInicial = listagemPage.PegarQuantidadeDeRegistros();
 
             // Act
+            ScreenshotHelper.GerarEvidencia(_webDriver, SettingsHelper.Directory, "ListagemAntes");
             listagemPage.DeletarPessoa();
-            ScreenshotHelper.GerarEvidencia(_webDriver, SettingsHelper.Directory, "ListagemDeletado");
+            ScreenshotHelper.GerarEvidencia(_webDriver, SettingsHelper.Directory, "ListagemSemDeletado");
 
             // Assert
             var quantidadeFinal = listagemPage.PegarQuantidadeDeRegistros();

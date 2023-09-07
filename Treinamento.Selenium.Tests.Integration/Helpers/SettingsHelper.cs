@@ -9,7 +9,14 @@
 
         public static string Directory
         {
-            get => "C:\\temp\\TreinamentoSelenium\\Evidencias";
+            get => "C:\\temp\\TreinamentoSelenium\\Evidencias" + Folder;
+        }
+
+        private static string Folder { get; set; }
+
+        public static void SetFolder(string folderName)
+        {
+            Folder = $"\\{folderName}";
         }
 
     }

@@ -45,9 +45,10 @@ namespace TreinamentoSellenium.Test.Integration.PageObjects.Base
             SelecionarEstadoComDelay(helper.Estado);
             PreencherCampoComDelay(inputTelefone, By.Id("telefone"), helper.Telefone);
             PreencherCampoComDelay(inputSenha, By.Id("senha"), helper.Senha);
-            ScreenshotHelper.GerarEvidencia(_webDriver, SettingsHelper.Directory, "FomularioCadastroPreenchido");
+            ScreenshotHelper.GerarEvidencia(_webDriver, SettingsHelper.Directory, "FomularioPreenchido");
             Task.Delay(2000).Wait();
             btnSalvar.Submit();
+            _webDriver.Close();
         }
 
         private void PreencherIdComDelay(int id)
