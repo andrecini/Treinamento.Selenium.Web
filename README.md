@@ -7,7 +7,7 @@ Esta aplicação foi feita com intuito de treinar a utilização do Selenium par
 - FluentValidator;
 - EntityFramework;
 - Sellenium;
-- XUnity;
+- XUnit;
 
 ## Descrição da Aplicação
 
