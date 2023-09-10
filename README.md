@@ -1,3 +1,5 @@
+![Banner](Assets/Banner.svg)
+
 # ASP.NET Core + Selenium
 
 Esta aplicação foi feita com intuito de treinar a utilização do Selenium para gerar Evidências de Testes de Integração de forma automatizada.
